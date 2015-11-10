@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by jessicahuffstutler on 11/9/15.
  */
 //Create a controller class next to the main application class
-@Controller
+@Controller //this is how spring finds this controller
 public class MicroBlogSpringController {
     //Create an ArrayList<Message> in your controller to store submitted messages
     ArrayList<Message> messages = new ArrayList();
@@ -24,7 +24,8 @@ public class MicroBlogSpringController {
     public String home(Model model, HttpServletRequest request) {
         //It should read the username from the session and add it to the model
         HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
+        String username = (String) session.getAttribute("username"); //casting because of the way the get attribute works;
+        // the username is null when we initially land on this page.
         model.addAttribute("username", username);
         model.addAttribute("messages", messages);
         //It should return the home template
@@ -34,7 +35,7 @@ public class MicroBlogSpringController {
     //In your controller, create a route for /login
     @RequestMapping("/login")
     //It should take the request and the username as arguments
-    public String login(HttpServletRequest request, String username) {
+    public String login(HttpServletRequest request, String username) { //what you provide in the "name" attribute in html should match this username exacty
 //      //It should save the username to the session
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
@@ -45,10 +46,10 @@ public class MicroBlogSpringController {
     //In your controller, create a route for /add-message
     @RequestMapping("/add-message")
     //It should take the message text as an argument
-    public String addMessage(@RequestParam("message") String text) {
+    public String addMessage(@RequestParam("message") String text) { //if the "name" attribute in html said "text" (in the add message form) instead of message, we wouldnt need "@RequestParam("message")"
         int id = messages.size() + 1;
         //It should create a Message object and add it to the arraylist (for the id, do something like messages.size() + 1)
-        Message message = new Message(text, id);
+        Message message = new Message(text, id); //could have (instead of "id" -> "message.size() + 1" and we could remove the line above.
         messages.add(message);
         //It should return a redirect to /
         return "redirect:/";
@@ -63,6 +64,12 @@ public class MicroBlogSpringController {
         for (int i = 0; i < messages.size(); i++) {
             messages.get(i).id = i + 1;
         }
+        //below is an alternative to my for loop above:
+        //int newID = 1;
+        //for (Message message : messages) {
+        //message id = newId;
+        //newId++:
+
         //It should return a redirect to /
         return "redirect:/";
     }
