@@ -23,7 +23,13 @@
 Messages by {{.}}:
 <br>
 {{#messages}}
-{{id}}. {{text}} <form action="delete-message" method="post" style="display: inline;">
+{{id}}. {{message}}
+<form action="edit-message" method="post" style="display: inline;">
+    <input type="hidden" name="id" value="{{id}}"/>
+    <input type="text" placeholder="Update Message" name="message">
+    <button type="submit">Edit</button>
+</form>
+<form action="delete-message" method="post" style="display: inline;">
     <input type="hidden" name="id" value="{{id}}"/>
     <button type="submit">Delete</button>
 </form> <br>
