@@ -21,7 +21,7 @@ public class MicroBlogSpringController {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
-        model.addAttribute("messages", messages.findAll());
+        model.addAttribute("messages", messages.findAll()); //we call findAll() because it's a list of things instead of the "messages" repository above.
         return "home";
     }
 
@@ -43,8 +43,8 @@ public class MicroBlogSpringController {
 
     @RequestMapping("delete-message")
     public String deleteMessage(Integer id) {
-        Message messageText = messages.findOne(id);
-        messages.delete(messageText);
+        //Message messageText = messages.findOne(id);
+        messages.delete(id);
         return "redirect:/";
     }
 
@@ -61,4 +61,7 @@ public class MicroBlogSpringController {
 }
 
 //when deleting all data from database/pressing the delete button, it does not renumber
+//database never reuses/repeats the same ID
+//to view a 1,2,3,etc for "id" create a different variable to store that.
 //when editing, it moves the edited line to the bottom, doesn't renumber, so the messages are out of order
+//order by (asc/desc) would correct the numbering issue when editing.
